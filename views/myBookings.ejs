@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+  <html lang="en">
+      
+      <head>
+          <meta charset="utf-8">
+          <title>HillsideSuites</title>
+        
+          <!-- Bootstrap Scripts -->
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+        
+          <!-- CSS Stylesheets -->
+          <link rel="stylesheet" href="css/styles.css">
+
+          <!-- Font Awesome -->
+          <script src="https://kit.fontawesome.com/9f9f6da6a2.js" crossorigin="anonymous"></script>
+
+          <!-- Google Fonts -->
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+
+      </head>
+
+      <body>
+          
+            <section id="titleMain">
+                <div class="container-fluid">
+                    
+                    <!-- nav bar -->
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <a class="navbar-brand" href="/">
+                        <img src="images/HillsideLogoFinal.png" width="130" height="130" class="d-inline-block align-top" alt="logo">
+                        </a>
+                    
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler01" aria-controls="navbarToggler01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggler01">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                            <a class="nav-link" href="amenities">Amenities</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="accommodations">Accommodations</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="about">About</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link navBtn btn btn-custom btn-sm" href="reserve">Reserve</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </nav>
+
+                    <!-- Title -->
+                    <div class="row">
+                        <div class = "reserve">
+                        <div class="col-lg-5">
+                            <h1 class="title-reserve">My Bookings</h1>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <div class="spacer"></div>
+
+            <!-- Prompts user to book if no bookings have been made -->
+            <% if (orders.length === 0) { %>
+                <section id="successMessage">
+                    <div class="jumbotron-fluid alert alert-secondary successJumbo">
+                        <h2 class="display-4 reserveErrorHeader">No Bookings Made</h2>
+                        <p class="lead reserveErrorText">You have not yet made any bookings with us at Hillside.</p>
+                        <hr class="my-4">
+                        <a href="reserve" class="btn btn-lg btn-dark">Book Now</a>
+                    </div>
+                </section>
+            <% } %>
+            
+            <div class="bookingsSection">
+                <!-- Populates the page with all of the user's orders stored in database -->
+                <% for (var i = 0; i < orders.length; i++) { %>
+                    <div class="ordersCard card lg-3">
+                    <div class="row g-0">
+                        <div class="col-lg-5">
+                            <% if (orders[i].type === "Single Room") { %>
+                                <img src="https://cdn.home-designing.com/wp-content/uploads/2019/10/green-and-white-bedroom.jpg" class="cardPic img-fluid rounded-start" alt="...">
+                            <% } else if (orders[i].type === "Double Room") { %>
+                                <img src="https://www.nh-hotels.com/corporate/assets/uploads/2022/11/17175816/hotels-design-_int_6_green-rooms.jpg" class="cardPic img-fluid rounded-start" alt="...">
+                            <% } else if (orders[i].type === "Triple Room") { %>
+                                <img src="https://www.lennoxmiamibeach.com/resourcefiles/homeroomsliderimages/terrace-poolside-double-in-lennoxmiamibeach-florida.jpg" class="cardPic img-fluid rounded-start" alt="...">
+                            <% } else { %>
+                                <img src="http://cdn.home-designing.com/wp-content/uploads/2020/01/green-bedroom-ideas.jpg" class="cardPic img-fluid rounded-start" alt="...">
+                            <% } %>
+                        </div>
+                        <div class="roomCard col-lg-6">
+                            <div class="card-body">
+
+                                <!-- Displays room numbers of the user's booking -->
+                                <% if (orders[i].rooms.length === 1) { %>
+                                    <h2 class="bookingTitle card-title"><%= orders[i].rooms.length + " " + orders[i].type %></h2>
+                                    <p class="card-text"><%= "Room Number: " + orders[i].rooms[0].roomNumber %></p> 
+                                <% } else { %>
+                                    <h2 class="bookingTitle card-title"><%= orders[i].rooms.length + " " + orders[i].type + "s" %></h2>
+                                    <% if (orders[i].rooms.length === 2) { %>
+                                        <p class="card-text"><%= "Room Numbers: " + orders[i].rooms[0].roomNumber + " and " + orders[i].rooms[1].roomNumber %></p>
+                                    <% } else { %>
+                                        <p class="card-text"><%= "Room Numbers: " + orders[i].rooms[0].roomNumber + ", " + orders[i].rooms[1].roomNumber + ", and " + orders[i].rooms[2].roomNumber %></p>
+                                    <% } %>
+                                <% } %>
+
+                                <p class="card-text"><%= "Check in Date: " + orders[i].startDate%></p>
+                                <p class="card-text"><%= "  Check out Date: " + orders[i].endDate %></p>
+                                <h3 class="card-text">Total: <span class="bookingSmallTitle"><%= "$" + orders[i].totalPrice %></span></h3>
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-dark btn-md cancelBtn" data-bs-toggle="modal" data-bs-target="<%= "#cancelModal" + i %>">
+                                    Cancel Booking
+                                </button>
+                                
+                                <!-- Modal Warning -->
+                                <div class="modal fade" id="<%= "cancelModal" + i %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Cancel Your Booking</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Are you sure you want to cancel your hotel booking?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <form action="/cancel" method="post">
+                                                    <button type="submit" value="<%= orders[i]._id %>" name="cancelBtn" class="btn btn-primary" data-bs-target="#cancelConfirmation" data-bs-toggle="modal">Cancel my Booking</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Confirmation of Cancellation -->
+                                <div class="modal fade" id="cancelConfirmation" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Booking Canceled</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          We are sorry to see you go. You will be given a full refund shortly.
+                                        </div>
+                                        <div class="modal-footer">
+                                          <a href="myBookings" class="btn btn-primary">Close</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                <% } %>
+            </div>
+
+          <footer id="footer">
+            
+            <i class="footerIcon fa-brands fa-instagram"></i>
+            <i class="footerIcon fa-brands fa-twitter"></i>
+            <i class="footerIcon fa-brands fa-facebook-f"></i>
+            <i class="footerIcon fa-solid fa-envelope"></i>
+            <p class="footerText">Hillside Suites</p>
+
+          </footer>
+
+        <script>
+            //Listen for when Modal is closed to redirect user
+            document.getElementById("cancelConfirmation").addEventListener("hidden.bs.modal", function () {
+                window.location.href = "myBookings";
+            });
+        </script>
+      </body>
+        
+  </html>
